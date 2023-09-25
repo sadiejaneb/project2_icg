@@ -8,10 +8,12 @@ public class navigation_patrol : MonoBehaviour
     public Transform[] points;
     private int destPoint = 0;
     private NavMeshAgent agent;
+    private Animator anim;
 
 
     void Start()
     {
+        anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
         // Disabling auto-braking allows for continuous movement
@@ -52,11 +54,14 @@ public class navigation_patrol : MonoBehaviour
     }
 
 
-    void Update()
+  void Update()
+{
+    if (!agent.pathPending && agent.remainingDistance < 0.5f)
     {
-        // Choose the next destination point when the agent gets
-        // close to the current one.
-        if (!agent.pathPending && agent.remainingDistance < 0.5f)
-            GotoNextPoint();
+        GotoNextPoint();
+        anim.SetBool("isRunning", true);  // NPC starts walking when it's moving to the next point.
     }
+   
+}
+
 }
