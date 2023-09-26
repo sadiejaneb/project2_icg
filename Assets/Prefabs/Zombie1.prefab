@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 4765745617434323406}
   - component: {fileID: 2091581314242974669}
   - component: {fileID: 9121138530979860334}
+  - component: {fileID: 7074855819963428084}
   m_Layer: 0
   m_Name: Zombie1
   m_TagString: Untagged
@@ -180,6 +181,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  chasingDistance: 5
 --- !u!195 &9121138530979860334
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -193,8 +195,8 @@ NavMeshAgent:
   m_Speed: 2
   m_Acceleration: 2
   avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 1
+  m_AngularSpeed: 200
+  m_StoppingDistance: 0.1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -202,6 +204,27 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!135 &7074855819963428084
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632145940236452200}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &907119170832065570
 GameObject:
   m_ObjectHideFlags: 0

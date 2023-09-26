@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 602042834092706972}
   - component: {fileID: 3704594758004401003}
   - component: {fileID: 2608694802245391535}
+  - component: {fileID: 4331811333273678180}
   m_Layer: 0
   m_Name: treasure_chest
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5078269168372275398}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.4592896, y: -2.550706, z: -41.78327}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -220,3 +221,19 @@ MonoBehaviour:
   rotationSpeed: 0
   collectSound: {fileID: 8300000, guid: abdbbfd33a46f4549987385f85c536b5, type: 3}
   collectEffect: {fileID: 0}
+--- !u!208 &4331811333273678180
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5078269168372275398}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.517, y: 0.34600002, z: 0.324}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.34600002, z: -0.009000001}
+  m_TimeToStationary: 0.5

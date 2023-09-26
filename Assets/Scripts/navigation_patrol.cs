@@ -9,6 +9,10 @@ public class navigation_patrol : MonoBehaviour
     private int destPoint = 0;
     private NavMeshAgent agent;
     private Animator anim;
+    private Transform player;
+    private bool isChasing = false;
+    public float chasingDistance = 10f; // Distance within which NPC will chase the player
+    private const float rotSpeed = 20f;
 
 
     void Start()
@@ -20,6 +24,7 @@ public class navigation_patrol : MonoBehaviour
         // between points (ie, the agent doesn't slow down as it
         // approaches a destination point).
         agent.autoBraking = false;
+        agent.updateRotation = false;
 
         GotoNextPoint();
     }
@@ -54,14 +59,47 @@ public class navigation_patrol : MonoBehaviour
     }
 
 
-  void Update()
-{
-    if (!agent.pathPending && agent.remainingDistance < 0.5f)
+    void Update()
     {
-        GotoNextPoint();
-        anim.SetBool("isRunning", true);  // NPC starts walking when it's moving to the next point.
+        InstantlyTurn(agent.destination);
+        if (isChasing)
+        {
+
+            agent.destination = player.position;
+            anim.SetBool("isRunning", true);
+        }
+        else
+        {
+            if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            {
+                GotoNextPoint();
+                anim.SetBool("isRunning", true);
+            }
+        }
     }
-   
-}
+    private void InstantlyTurn(Vector3 destination)
+    {
+        //When on target -> dont rotate!
+        if ((destination - transform.position).magnitude < 0.1f) return;
+
+        Vector3 direction = (destination - transform.position).normalized;
+        Quaternion qDir = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, qDir, Time.deltaTime * rotSpeed);
+    }
+    public void StartChasing(Transform target)
+    {
+
+        isChasing = true;
+        player = target;
+        
+    }
+
+    public void StopChasing()
+    {
+        isChasing = false;
+        player = null;
+        GotoNextPoint();
+    }
+
 
 }
