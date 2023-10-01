@@ -1,6 +1,8 @@
 // Patrol.cs
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
+
 
 public class navigation_patrol : MonoBehaviour
 {
