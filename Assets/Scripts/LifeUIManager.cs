@@ -7,8 +7,10 @@ using TMPro;
 public class LifeUIManager : MonoBehaviour
 {
     public static LifeUIManager instance;
- 
+
+    [SerializeField]
     private TextMeshProUGUI gameOverText;
+
     [SerializeField]
     private int currentLife = 4;
  
@@ -17,6 +19,8 @@ public class LifeUIManager : MonoBehaviour
     private Sprite[] _livesSprites;
     [SerializeField]
     private Image _livesImage;
+    [SerializeField] private CanvasGroup blackScreenCanvasGroup;
+
 
 
     void Awake()
@@ -53,36 +57,49 @@ public class LifeUIManager : MonoBehaviour
             _livesImage = livesImageObject.GetComponent<Image>();
             UpdateLifeUI();  // Update the UI once you reassign the reference
         }
-       
+        // Attempt to find the gameOverText object
+        GameObject gameOverObject = GameObject.Find("GameOver");
+        if (gameOverObject != null)
+        {
+            gameOverText = gameOverObject.GetComponent<TextMeshProUGUI>();
+            gameOverText.gameObject.SetActive(false);
+        }
+        if (blackScreenCanvasGroup == null) 
+        {
+        blackScreenCanvasGroup = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<CanvasGroup>();
+        blackScreenCanvasGroup.alpha = 0; // Set the initial alpha to 0 (completely transparent)
+        }
     }
-    
+
     public void HandleEnemyCollision()
     {
-        ReduceLife();
-
-        // Check if game over
-        if (GetCurrentLife() <= 1)
+        if (GetComponent<AudioSource>() != null)
         {
-            // Trigger a "GameOver" animation if you have one.
+            GetComponent<AudioSource>().Play();
+        }
+        ReduceLife();
+        // Check if game over
+        if (currentLife <= 1)
+        {
+            gameOverText.gameObject.SetActive(true);
 
-            // Call the GameOver method after a delay
-            Invoke("GameOver", 3f);
+            GameOver();
         }
         else
         {
             // Else, Reset the level
-            Reload();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+
     }
 
-    public void ReduceLife()
+    public int ReduceLife()
     {
-        Debug.Log("ReduceLife called. Current life before reduction: " + currentLife);
-
         currentLife--;
         UpdateLifeUI();
+       
 
-        Debug.Log("Life after reduction: " + currentLife);
+        return currentLife;
     }
 
 
@@ -93,22 +110,11 @@ public class LifeUIManager : MonoBehaviour
             _livesImage.sprite = _livesSprites[currentLife - 1];
         }
     }
+    private void GameOver() {
 
-    public int GetCurrentLife()
-    {
-        return currentLife;
-    }
-    public void Reload() {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        
-    }
-    
-    public void GameOver()
-    {
-        gameOverText.gameObject.SetActive(true);
+        blackScreenCanvasGroup.alpha = 1f;
         Invoke("QuitGame", 3f);
     }
-
     void QuitGame()
     {
         Application.Quit();
