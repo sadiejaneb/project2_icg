@@ -66,16 +66,13 @@ public class navigation_patrol : MonoBehaviour
         InstantlyTurn(agent.destination);
         if (isChasing)
         {
-
             agent.destination = player.position;
-            anim.SetBool("isRunning", true);
         }
         else
         {
             if (!agent.pathPending && agent.remainingDistance < 0.5f)
             {
                 GotoNextPoint();
-                anim.SetBool("isRunning", true);
             }
         }
     }
