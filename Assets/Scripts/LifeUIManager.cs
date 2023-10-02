@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-
+using System.Collections;
 
 public class LifeUIManager : MonoBehaviour
 {
@@ -20,6 +20,8 @@ public class LifeUIManager : MonoBehaviour
     [SerializeField]
     private Image _livesImage;
     [SerializeField] private CanvasGroup blackScreenCanvasGroup;
+     [SerializeField]
+ 
 
 
 
@@ -73,9 +75,12 @@ public class LifeUIManager : MonoBehaviour
 
     public void HandleEnemyCollision()
     {
-        if (GetComponent<AudioSource>() != null)
+        AudioSource playerAudioSource = GetComponent<AudioSource>();
+        if (playerAudioSource != null)
         {
-            GetComponent<AudioSource>().Play();
+            Debug.Log("Playing audio...");
+            // Play the audio clip
+            playerAudioSource.Play();
         }
         ReduceLife();
         // Check if game over
@@ -88,9 +93,15 @@ public class LifeUIManager : MonoBehaviour
         else
         {
             // Else, Reset the level
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            StartCoroutine(ReloadSceneAfterDelay(0.74f));
+
         }
 
+    }
+    IEnumerator ReloadSceneAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public int ReduceLife()
