@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class ZoneScript : MonoBehaviour
 {
-    public navigation_patrol npcScript;  // Drag and drop the NPC's navigation_patrol script here in the inspector.
+    public navigation_patrol npcScript;
+    // A flag to check if the treasure was collected
+
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Something entered the zone: " + other.gameObject.name);
         if (other.CompareTag("Player"))
         {
             npcScript.StartChasing(other.transform);
@@ -15,11 +16,13 @@ public class ZoneScript : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        Debug.Log("Something exited the zone: " + other.gameObject.name);
         if (other.CompareTag("Player"))
         {
-            npcScript.StopChasing();
+            // Check if its linked treasure has been collected
+            if (!npcScript.isTreasureCollected)
+            {
+                npcScript.StopChasing();
+            }
         }
     }
-
 }
