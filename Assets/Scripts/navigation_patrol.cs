@@ -1,8 +1,6 @@
 // Patrol.cs
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.SceneManagement;
-
 
 public class navigation_patrol : MonoBehaviour
 {
@@ -15,7 +13,8 @@ public class navigation_patrol : MonoBehaviour
     private bool isChasing = false;
     public float chasingDistance = 10f; // Distance within which NPC will chase the player
     private const float rotSpeed = 20f;
-
+    public bool keepChasing = false;
+    public bool isTreasureCollected = false;
 
     void Start()
     {
@@ -30,10 +29,26 @@ public class navigation_patrol : MonoBehaviour
 
         GotoNextPoint();
     }
+    void OnEnable()
+    {
+        // Restart the patrol when the NPC is enabled
+        GotoNextPoint();
+    }
+
+    void OnDisable()
+    {
+        // Stop the NavMeshAgent when the NPC is disabled
+        if (agent != null)
+        {
+            agent.isStopped = true;
+        }
+    }
 
 
     void GotoNextPoint()
     {
+        if (points.Length == 0 || agent == null || !agent.isActiveAndEnabled)
+            return;
         // Returns if no points have been set up
         if (points.Length == 0)
             return;
@@ -64,7 +79,11 @@ public class navigation_patrol : MonoBehaviour
     void Update()
     {
         InstantlyTurn(agent.destination);
-        if (isChasing)
+        if (ObjectCollision.PlayerIsPoweredUp || TreasureManager.permanentlyPoweredUp) // Check if the player is powered up
+        {
+            RunFromPlayer();
+        }
+        else if (isChasing || keepChasing)
         {
             agent.destination = player.position;
         }
@@ -76,6 +95,33 @@ public class navigation_patrol : MonoBehaviour
             }
         }
     }
+    void RunFromPlayer()
+    {
+        if (player == null) return;
+
+        float maxDistance = 0;
+        Transform bestFleePoint = null;
+
+        // Iterate through each patrol point to find the one furthest from the player
+        foreach (Transform point in points)
+        {
+            float currentDistance = Vector3.Distance(player.position, point.position);
+            if (currentDistance > maxDistance)
+            {
+                maxDistance = currentDistance;
+                bestFleePoint = point;
+            }
+        }
+
+        // If a valid point is found, set it as the destination
+        if (bestFleePoint != null)
+        {
+            agent.destination = bestFleePoint.position;
+        }
+    }
+
+
+
     private void InstantlyTurn(Vector3 destination)
     {
         //When on target -> dont rotate!
@@ -87,18 +133,26 @@ public class navigation_patrol : MonoBehaviour
     }
     public void StartChasing(Transform target)
     {
-
         isChasing = true;
         player = target;
-        
     }
 
     public void StopChasing()
     {
         isChasing = false;
         player = null;
-        GotoNextPoint();
+        if (agent != null && agent.isActiveAndEnabled)
+        {
+            GotoNextPoint();
+        }
     }
-
+    public bool IsKeepingChase()
+    {
+        return keepChasing;
+    }
+    public void NotifyTreasureCollected()
+    {
+        isTreasureCollected = true;
+    }
 
 }

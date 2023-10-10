@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - LivesImage
   - BlackScreen
+  - Treasure
+  - Energy
   layers:
   - Default
   - TransparentFX

@@ -13,15 +13,15 @@ public class LifeUIManager : MonoBehaviour
 
     [SerializeField]
     private int currentLife = 4;
- 
+
 
     [SerializeField]
     private Sprite[] _livesSprites;
     [SerializeField]
     private Image _livesImage;
     [SerializeField] private CanvasGroup blackScreenCanvasGroup;
-     [SerializeField]
- 
+    [SerializeField]
+
 
 
 
@@ -37,7 +37,7 @@ public class LifeUIManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-  
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -48,7 +48,7 @@ public class LifeUIManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    
+
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -66,10 +66,10 @@ public class LifeUIManager : MonoBehaviour
             gameOverText = gameOverObject.GetComponent<TextMeshProUGUI>();
             gameOverText.gameObject.SetActive(false);
         }
-        if (blackScreenCanvasGroup == null) 
+        if (blackScreenCanvasGroup == null)
         {
-        blackScreenCanvasGroup = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<CanvasGroup>();
-        blackScreenCanvasGroup.alpha = 0; // Set the initial alpha to 0 (completely transparent)
+            blackScreenCanvasGroup = GameObject.FindGameObjectWithTag("BlackScreen").GetComponent<CanvasGroup>();
+            blackScreenCanvasGroup.alpha = 0; // Set the initial alpha to 0 (completely transparent)
         }
     }
 
@@ -100,6 +100,11 @@ public class LifeUIManager : MonoBehaviour
     }
     IEnumerator ReloadSceneAfterDelay(float delay)
     {
+        ZoneScript zoneScriptInstance = FindObjectOfType<ZoneScript>();
+        if (zoneScriptInstance != null)
+        {
+            zoneScriptInstance.enabled = true;
+        }
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
@@ -108,7 +113,7 @@ public class LifeUIManager : MonoBehaviour
     {
         currentLife--;
         UpdateLifeUI();
-       
+
 
         return currentLife;
     }
@@ -121,7 +126,8 @@ public class LifeUIManager : MonoBehaviour
             _livesImage.sprite = _livesSprites[currentLife - 1];
         }
     }
-    private void GameOver() {
+    private void GameOver()
+    {
 
         blackScreenCanvasGroup.alpha = 1f;
         Invoke("QuitGame", 3f);
