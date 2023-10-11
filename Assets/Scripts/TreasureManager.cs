@@ -31,7 +31,6 @@ public class TreasureManager : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         Collect();
-        gameManager.NotifyChestCollected();
         if (treasureUIManager != null)
         {
             treasureUIManager.UpdateTreasureCount();
@@ -42,6 +41,7 @@ public class TreasureManager : MonoBehaviour
                 Debug.Log("All chests collected. PermanentlyPoweredUp is set to true.");
             }
         }
+        gameManager.NotifyChestCollected();
 
         TriggerKeepChasing(other);
     }
