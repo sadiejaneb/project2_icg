@@ -36,8 +36,9 @@ public class ObjectCollision : MonoBehaviour
         SimpleCollectibleScript collectibleScript = other.GetComponent<SimpleCollectibleScript>();
         if (collectibleScript != null)
         {
-                // Increase the energy count
-                energyCount++;
+            // Increase the energy count
+            energyCount++;
+            lastEnergyCollectedTime = Time.time;
             // Collect the energy without destroying it
             collectibleScript.Collect();
             CollectEnergy(other.gameObject);
