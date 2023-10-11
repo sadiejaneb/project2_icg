@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI youWinText;
     private int deadNPCs = 0;
+    private bool allDeadNPCsDefeated = false;
+    private bool allTreasureCollected = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,19 +30,27 @@ public class GameManager : MonoBehaviour
         Debug.Log("Total defeated: " + deadNPCs);
 
         // Check the win condition again when an NPC is defeated
-        if (treasureUIManager.treasureCount >= 3 && deadNPCs >= 3)
+        if (deadNPCs >= 3)
         {
-            youWin();
+            allDeadNPCsDefeated = true;
+            CheckWinCondition();
         }
     }
     public void NotifyChestCollected()
     {
-        if (treasureUIManager.treasureCount >= 3 && deadNPCs >= 3)
+        if (treasureUIManager.treasureCount >= 3)
+        {
+            allTreasureCollected = true;
+            CheckWinCondition();
+        }
+    }
+    public void CheckWinCondition() 
+    {
+        if (allDeadNPCsDefeated && allTreasureCollected)
         {
             youWin();
         }
     }
-
 
     private void youWin() {
         youWinText.enabled = true;
