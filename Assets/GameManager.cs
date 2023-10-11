@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Total defeated: " + deadNPCs);
 
         // Check the win condition again when an NPC is defeated
-        if (TreasureManager.permanentlyPoweredUp && deadNPCs >= 3)
+        if (treasureUIManager.treasureCount >= 3 && deadNPCs >= 3)
         {
             youWin();
         }
