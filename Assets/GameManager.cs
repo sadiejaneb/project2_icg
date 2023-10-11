@@ -38,9 +38,11 @@ public class GameManager : MonoBehaviour
     }
     public void NotifyChestCollected()
     {
+        Debug.Log("NotifyChestCollected called. Total chests: " + treasureUIManager.treasureCount);
         if (treasureUIManager.treasureCount >= 3)
         {
             allTreasureCollected = true;
+            Debug.Log("All treasures collected.");
             CheckWinCondition();
         }
     }
