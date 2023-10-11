@@ -24,9 +24,9 @@ public class EnemyCollision : MonoBehaviour
 
     }
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
+    private void OnTriggerEnter(Collider other)
     {
-        if (hit.gameObject.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy"))
         {
             if (objectCollision.IsPoweredUp() || TreasureManager.permanentlyPoweredUp)
             {
@@ -39,14 +39,17 @@ public class EnemyCollision : MonoBehaviour
                     // Play the assigned audio clip
                     enemyAudioSource.Play();
                 }
-                // Eliminate the guard
-                hit.gameObject.SetActive(false);
+                // Deactivate the enemy GameObject
+                other.gameObject.SetActive(false);
             }
-            else {
+            else
+            {
+                // Deactivate the player character
                 this.gameObject.SetActive(false);
-                Animator npcAnimator = hit.gameObject.GetComponent<Animator>();
 
-                // Deactivate the Animator component
+                Animator npcAnimator = other.GetComponent<Animator>();
+
+                // Deactivate the Animator component of the enemy
                 if (npcAnimator != null)
                 {
                     npcAnimator.enabled = false;
@@ -59,7 +62,6 @@ public class EnemyCollision : MonoBehaviour
                 }
                 lifeUIManager.HandleEnemyCollision(); // Call without passing any arguments
             }
-            
         }
     }
 }
