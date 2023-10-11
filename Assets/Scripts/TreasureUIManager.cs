@@ -11,13 +11,13 @@ public class TreasureUIManager : MonoBehaviour
     private void Start()
     {
         // Initialize the UI text element
-        treasureText.text = "Treasure: " + treasureCount.ToString();
+        treasureText.text = treasureCount.ToString();
     }
 
     public void UpdateTreasureCount()
     {
         treasureCount++;
-        treasureText.text = "Treasure: " + treasureCount.ToString();
+        treasureText.text = treasureCount.ToString();
 
     }
 

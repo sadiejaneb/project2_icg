@@ -32,7 +32,6 @@ public class TreasureManager : MonoBehaviour
         if (treasureUIManager != null)
         {
             treasureUIManager.UpdateTreasureCount();
-
             // Check for the power-up condition here and trigger any related game logic if needed
             if (treasureUIManager.treasureCount >= 3 && !permanentlyPoweredUp)
             {

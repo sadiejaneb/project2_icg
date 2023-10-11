@@ -10,6 +10,9 @@ public class ObjectCollision : MonoBehaviour
     private Sprite[] energySprites;
     [SerializeField]
     private Image energyImage;
+    [SerializeField]
+    private PowerUpTimer powerUpTimer;
+
 
     private int energyCount = 0; // Ensure you have this variable declared
     private bool isPoweredUp = false;
@@ -19,6 +22,7 @@ public class ObjectCollision : MonoBehaviour
     private float energyDecrementInterval = 10f;// The time interval after which energy count will decrement
     public static bool PlayerIsPoweredUp = false;
     private EnergyRespawner respawner;
+    private float powerUpEndTime;
     private void Start()
     {
         respawner = FindObjectOfType<EnergyRespawner>();
@@ -59,13 +63,26 @@ public class ObjectCollision : MonoBehaviour
             PowerUpPlayer();
         }
     }
-
+    // Public method to check if player is powered up
+    public bool IsPoweredUp()
+    {
+        return isPoweredUp;
+    }
+    public float GetPowerUpTimeLeft()
+    {
+        return powerUpEndTime - Time.time;
+    }
     void PowerUpPlayer()
     {
         isPoweredUp = true;
         PlayerIsPoweredUp = true;
+        if (powerUpTimer != null)
+        {
+            powerUpTimer.StartTimer(powerUpDuration);
+        }
         StartCoroutine(PowerUpDuration());
     }
+
     IEnumerator PowerUpDuration()
     {
         yield return new WaitForSeconds(powerUpDuration);
@@ -93,13 +110,6 @@ public class ObjectCollision : MonoBehaviour
         {
             lastEnergyCollectedTime = Time.time;
         }
-    }
-
-
-    // Public method to check if player is powered up
-    public bool IsPoweredUp()
-    {
-        return isPoweredUp;
     }
     // Called when an energy object is collected
     public void CollectEnergy(GameObject energyObject)
