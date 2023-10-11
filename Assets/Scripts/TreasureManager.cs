@@ -17,18 +17,21 @@ public class TreasureManager : MonoBehaviour
 
     private bool collected = false;
     public navigation_patrol linkedNPC;
-   
+    private GameManager gameManager;
+
 
     // Start is called before the first frame update
     void Start()
     {
         // Find the TreasureUIManager instance in the scene
         treasureUIManager = FindObjectOfType<TreasureUIManager>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     void OnTriggerEnter(Collider other)
     {
         Collect();
+        gameManager.NotifyChestCollected();
         if (treasureUIManager != null)
         {
             treasureUIManager.UpdateTreasureCount();

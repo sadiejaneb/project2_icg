@@ -33,6 +33,14 @@ public class GameManager : MonoBehaviour
             youWin();
         }
     }
+    public void NotifyChestCollected()
+    {
+        if (treasureUIManager.treasureCount >= 3 && deadNPCs >= 3)
+        {
+            youWin();
+        }
+    }
+
 
     private void youWin() {
         youWinText.enabled = true;
