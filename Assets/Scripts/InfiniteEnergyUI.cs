@@ -14,15 +14,19 @@ public class InfiniteEnergyUI : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        // Check the isPermanentlyPoweredUp boolean from TreasureManager
         if (TreasureManager.permanentlyPoweredUp)
         {
-            infiniteEnergyImage.gameObject.SetActive(true); // Set the image active
+            // Set the image active if permenantly powered up
+            infiniteEnergyImage.gameObject.SetActive(true);
         }
         else
         {
-            infiniteEnergyImage.gameObject.SetActive(false); // Set the image inactive
+            // Set the image inactive if is not permenantly powered up
+            infiniteEnergyImage.gameObject.SetActive(false);
         }
     }
+
 }

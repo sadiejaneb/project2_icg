@@ -13,14 +13,13 @@ public class PowerUpTimer : MonoBehaviour
     }
     void Start() 
     {
+        timerText.gameObject.SetActive(false);  // Ensure the timer is hidden at the start
     }
 
     private void Update()
     {
         if (TimerOn)
-        {
-            timerText.gameObject.SetActive(true); // Show the timer
-            
+        {   
             if (TimeLeft > 0)
             {
                 TimeLeft -= Time.deltaTime;
@@ -40,6 +39,7 @@ public class PowerUpTimer : MonoBehaviour
     {
         TimeLeft = duration;
         TimerOn = true;
+        timerText.gameObject.SetActive(true); // Show the timer
     }
 
     void updateTimer(float currentTime)
